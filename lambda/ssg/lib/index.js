@@ -2,10 +2,18 @@
 
 var web = require('solid-js/web');
 
-const _tmpl$ = ["<div", "><header><p>Sample render of page with <b>", "</b></p><a href=\"https://github.com/solidjs/solid\" target=\"_blank\" rel=\"noopener noreferrer\">Learn Solid</a></header></div>"];
-function App(props) {
-  return web.ssr(_tmpl$, web.ssrHydrationKey(), web.escape(props.id));
-}
+const App = props => {
+  return <div>
+      <header>
+        <p>
+          Sample render of page with <b>{props.id}</b>
+        </p>
+        <a href="https://github.com/solidjs/solid" target="_blank" rel="noopener noreferrer">
+          Learn Solid
+        </a>
+      </header>
+    </div>;
+};
 
 // entry point for server render
 var index = (async req => {

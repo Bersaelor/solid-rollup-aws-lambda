@@ -2,11 +2,11 @@ import jsx from 'acorn-jsx';
 import nodeResolve from '@rollup/plugin-node-resolve';
 import common from '@rollup/plugin-commonjs';
 import babel from '@rollup/plugin-babel';
-import typescript from '@rollup/plugin-typescript';
+import ts from "rollup-plugin-ts";
 
 export default [
   {
-    input: "index.jsx", // replace with index.tsx to get [!] Error: Could not resolve '../site/src/App' from index.tsx
+    input: "index.tsx",
     output: [
       {
         dir: "lib",
@@ -17,7 +17,11 @@ export default [
     external: ["solid-js", "solid-js/web"],
     acornInjectPlugins: [jsx()],
     plugins: [
-      typescript({ tsconfig: "./tsconfig.json" }),
+      // typescript({ tsconfig: "./tsconfig.json" }),
+      ts({
+        transpiler: "babel",
+        tsconfig: "./tsconfig.json"
+      }),
       nodeResolve({ preferBuiltins: true, exportConditions: ["solid", "node"] }),
       babel({
         babelHelpers: "bundled",
