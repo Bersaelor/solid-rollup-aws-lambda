@@ -2,6 +2,34 @@
 
 This project aims to render a [solidjs](https://www.solidjs.com) site as static html and return it from an AWS Lambda function, built using [aws sam](https://aws.amazon.com/serverless/sam/).
 
+The current example works when run without typescript and jsx, i.e. in the rollup.config.js we use:
+
+```js
+export default [
+  {
+    input: "index.jsx",
+```
+
+similar to what we find in the [solid-ssr example](https://github.com/solidjs/solid/tree/main/packages/solid-ssr/examples/shared/src/components).
+
+If we try to use tsx, i.e.
+
+```js
+export default [
+  {
+    input: "index.tsx",
+```
+
+we get:
+
+```bash
+$ rollup -c rollup.config.js
+
+index.tsx → lib...
+[!] Error: Could not resolve '../site/src/App' from index.tsx
+Error: Could not resolve '../site/src/App' from index.tsx
+```
+
 ## Project setup
 
 ```
@@ -13,6 +41,13 @@ This project aims to render a [solidjs](https://www.solidjs.com) site as static 
     │   package.json  // with esbuild and @aws-sdk but no solid
     │   lambda.ts     // fetches data, imports the mjs from the ssg folder and is called on aws
     │
+    └───ssg
+    |   │   package.json // with solid, rollup and babel
+    |   │   index.jsx // import App from "../site-js/src/App";
+    |   │   index.tsx // import App from "../site/src/App";
+    |   │   rollup.config.js // creates the file that is imported into lambda.ts
+    |
+    |
     └───site
     │   │   package.json // with solid and vite in this folder so I can develop locally
     │   |   tsconfig.json
@@ -24,20 +59,14 @@ This project aims to render a [solidjs](https://www.solidjs.com) site as static 
     │       │   ...
     │
     └───site-js
-    │   │   package.json // same as site, just as javascript
-    │   |   jsconfig.json
-    │   │   vite.config.ts.
-    │   │
-    │   └───src
-    │       │   index.jsx
-    │       │   App.js  // if we rename this to App.jsx the rollup won't succeed
-    │       │   ...
-    │
-    └───ssg
-        │   package.json // with solid, rollup and babel
-        │   index.jsx // import App from "../site-js/src/App";
-        │   index.tsx // import App from "../site/src/App";
-        │   rollup.config.js // so I can run rollup -c rollup.config.js to create the cjs file I can import in the lambda.ts
+        │   package.json // same as site, just as javascript
+        |   jsconfig.json
+        │   vite.config.ts.
+        │
+        └───src
+            │   index.jsx
+            │   App.js  // if we rename this to App.jsx the rollup won't succeed
+            │   ...
 ```
 
 ## build the rollup-ssg module
