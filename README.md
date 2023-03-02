@@ -2,13 +2,10 @@
 
 This project aims to render a [solidjs](https://www.solidjs.com) site as static html and return it from an AWS Lambda function, built using [aws sam](https://aws.amazon.com/serverless/sam/).
 
-- hello-world - Code for the application's Lambda function written in TypeScript.
-- template.yaml - AWS Sam serverless model
-
 ## Project setup
 
 ```
-project
+/
 |   template.yml // aws sam serverless model
 |
 └───lambda
